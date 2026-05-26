@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup - Gestor de Tareas ICE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #fafafa;
+            color: #212121;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: #f5f5f5;
+            max-width: 1920px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* ==================== PANTALLA PRINCIPAL ==================== */
+        .phone-frame {
+            width: 480px;
+            height: 900px;
+            background: white;
+            border: 12px solid #1a1a1a;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 25px;
+            background: #1a1a1a;
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .status-bar {
+            background: #1976d2;
+            color: white;
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            height: 30px;
+            margin-top: 15px;
+        }
+
+        /* ==================== NAVBAR ==================== */
+        .navbar {
+            background: #1976d2;
+            color: white;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-title {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .navbar-icons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* ==================== CONTENT ==================== */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* ==================== TASK FORM ==================== */
+        .form-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        .card-header {
+            background: #f5f5f5;
+            padding: 16px;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+
+        .card-content {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #212121;
+        }
+
+        .form-input {
+            padding: 12px;
+            border: 1px solid #bdbdbd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Roboto', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1976d2;
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+
+        .form-input.error {
+            border-color: #f44336;
+        }
+
+        .form-input.textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: #757575;
+            margin-top: 2px;
+        }
+
+        .helper-text.error {
+            color: #f44336;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4caf50;
+            width: 0%;
+            animation: pulse 0.3s;
+        }
+
+        @keyframes pulse {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .button-primary {
+            background: #1976d2;
+            color: white;
+        }
+
+        .button-primary:hover {
+            background: #1565c0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .button-primary:disabled {
+            background: #bdbdbd;
+            cursor: not-allowed;
+        }
+
+        .button-secondary {
+            background: white;
+            color: #1976d2;
+            border: 1px solid #1976d2;
+        }
+
+        .button-secondary:hover {
+            background: #f5f5f5;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ==================== TASK LIST ==================== */
+        .task-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .task-card:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .task-card.completed {
+            opacity: 0.6;
+            background: #f5f5f5;
+        }
+
+        .task-header {
+            padding: 12px 16px;
+            background: #fafafa;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-title {
+            font-weight: 500;
+            font-size: 15px;
+            flex: 1;
+        }
+
+        .task-title.completed {
+            text-decoration: line-through;
+            color: #9e9e9e;
+        }
+
+        .task-time {
+            font-size: 12px;
+            color: #9e9e9e;
+        }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .priority-high {
+            background: rgba(244, 67, 54, 0.1);
+            color: #c62828;
+        }
+
+        .priority-medium {
+            background: rgba(255, 152, 0, 0.1);
+            color: #e65100;
+        }
+
+        .priority-low {
+            background: rgba(76, 175, 80, 0.1);
+            color: #2e7d32;
+        }
+
+        .task-body {
+            padding: 16px;
+        }
+
+        .task-description {
+            font-size: 13px;
+            color: #757575;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .ice-score-box {
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #1976d2;
+        }
+
+        .ice-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #424242;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .ice-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .ice-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .ice-label {
+            flex: 0 0 70px;
+            color: #757575;
+            font-weight: 500;
+        }
+
+        .ice-bar {
+            flex: 1;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .ice-bar-fill {
+            height: 100%;
+            background: #42a5f5;
+            border-radius: 3px;
+        }
+
+        .ice-value {
+            flex: 0 0 30px;
+            text-align: right;
+            color: #424242;
+            font-weight: 600;
+        }
+
+        .ice-divider {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 8px 0;
+        }
+
+        .ice-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #1976d2;
+        }
+
+        .ice-score {
+            background: rgba(76, 175, 80, 0.1);
+            color: #2e7d32;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 8px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: white;
+            color: #1976d2;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .action-button:last-child {
+            border-right: none;
+        }
+
+        .action-button:hover {
+            background: #f5f5f5;
+        }
+
+        .action-button.delete:hover {
+            color: #f44336;
+            background: #ffebee;
+        }
+
+        .action-button.delete {
+            color: #f44336;
+        }
+
+        /* ==================== SNACKBAR ==================== */
+        .snackbar {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            background: #323232;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .snackbar.success {
+            background: #4caf50;
+        }
+
+        .snackbar.error {
+            background: #f44336;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ==================== TABLET VIEW ==================== */
+        .tablet-frame {
+            width: 768px;
+            height: 1024px;
+            background: white;
+            border: 8px solid #1a1a1a;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .tablet-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            background: #fafafa;
+        }
+
+        /* ==================== DESKTOP VIEW ==================== */
+        .desktop-frame {
+            width: 1200px;
+            height: 700px;
+            background: white;
+            border: 4px solid #424242;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .desktop-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 24px;
+            background: #fafafa;
+        }
+
+        /* ==================== UTILITIES ==================== */
+        .title {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .divider {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 8px 0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 32px 16px;
+            color: #9e9e9e;
+            font-size: 14px;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1400px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Scrollbar styling */
+        .content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: #bdbdbd;
+            border-radius: 3px;
+        }
+
+        .content::-webkit-scrollbar-thumb:hover {
+            background: #9e9e9e;
+        }
+
+        /* Alert styling */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 4px;
+            border-left: 4px solid;
+            font-size: 13px;
+            margin: 8px 0;
+        }
+
+        .alert-error {
+            background: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #0d47a1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ==================== MOBILE VIEW ==================== -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <span>●●●●●</span>
+            </div>
+
+            <div class="navbar">
+                <div class="navbar-title">🎯 Gestor ICE</div>
+                <div class="navbar-icons">
+                    <button class="icon-btn">ℹ️</button>
+                    <button class="icon-btn">⋮</button>
+                </div>
+            </div>
+
+            <div class="content">
+                <!-- FORM SECTION -->
+                <div class="form-card">
+                    <div class="card-header">✍️ Crear Nueva Tarea</div>
+                    <div class="card-content">
+                        <div class="form-group">
+                            <label class="form-label">Título *</label>
+                            <input type="text" class="form-input" placeholder="Ej: Implementar OAuth" value="Implementar autenticación">
+                            <div class="helper-text">25/100 caracteres</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Descripción * (mín. 10 caracteres)</label>
+                            <textarea class="form-input textarea" placeholder="Describe brevemente...">Crear un sistema de autenticación seguro usando OAuth 2.0 con Google y GitHub. Incluir validación de tokens.</textarea>
+                            <div class="helper-text">142/500 caracteres ✓</div>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%;"></div>
+                        </div>
+
+                        <div class="button-group">
+                            <button class="button button-primary">
+                                <span>+</span> Crear Tarea
+                            </button>
+                            <button class="button button-secondary">Limpiar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TASK LIST SECTION -->
+                <div style="margin-top: 8px;">
+                    <div class="card-header" style="background: white; border-bottom: 1px solid #e0e0e0; margin-bottom: 8px;">
+                        📋 Tareas (3)
+                    </div>
+
+                    <!-- TASK CARD 1 -->
+                    <div class="task-card">
+                        <div class="task-header">
+                            <div class="task-title">🎯 Implementar OAuth</div>
+                            <div class="priority-badge priority-high">🟢 ALTO</div>
+                        </div>
+                        <div class="task-body">
+                            <div class="task-description">Crear un sistema de autenticación seguro usando OAuth 2.0 con Google y GitHub...</div>
+                            <div class="ice-score-box">
+                                <div class="ice-title">📊 Puntaje ICE</div>
+                                <div class="ice-rows">
+                                    <div class="ice-row">
+                                        <div class="ice-label">Impacto:</div>
+                                        <div class="ice-bar"><div class="ice-bar-fill" style="width: 80%; background: #42a5f5;"></div></div>
+                                        <div class="ice-value">8/10</div>
+                                    </div>
+                                    <div class="ice-row">
+                                        <div class="ice-label">Confianza:</div>
+                                        <div class="ice-bar"><div class="ice-bar-fill" style="width: 70%; background: #42a5f5;"></div></div>
+                                        <div class="ice-value">7/10</div>
+                                    </div>
+                                    <div class="ice-row">
+                                        <div class="ice-label">Esfuerzo:</div>
+                                        <div class="ice-bar"><div class="ice-bar-fill" style="width: 40%; background: #42a5f5;"></div></div>
+                                        <div class="ice-value">4/10</div>
+                                    </div>
+                                </div>
+                                <div class="ice-divider"></div>
+                                <div class="ice-total">
+                                    <span>ICE Total:</span>
+                                    <div class="ice-score">3.75 🟢</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="action-button">✓ Completar</button>
+                            <button class="action-button delete">🗑 Eliminar</button>
+                        </div>
+                    </div>
+
+                    <!-- TASK CARD 2 -->
+                    <div class="task-card" style="margin-top: 12px;">
+                        <div class="task-header">
+                            <div class="task-title">📡 Crear API REST</div>
+                            <div class="priority-badge priority-medium">🟡 MEDIO</div>
+                        </div>
+                        <div class="task-body">
+                            <div class="task-description">Endpoints CRUD con validación y manejo de errores...</div>
+                            <div class="ice-score-box">
+                                <div class="ice-title">📊 Puntaje ICE</div>
+                                <div class="ice-rows">
+                                    <div class="ice-row">
+                                        <div class="ice-label">Impacto:</div>
+                                        <div class="ice-bar"><div class="ice-bar-fill" style="width: 60%; background: #42a5f5;"></div></div>
+                                        <div class="ice-value">6/10</div>
+                                    </div>
+                                    <div class="ice-row">
+                                        <div class="ice-label">Confianza:</div>
+                                        <div class="ice-bar"><div class="ice-bar-fill" style="width: 80%; background: #42a5f5;"></div></div>
+                                        <div class="ice-value">8/10</div>
+                                    </div>
+                                    <div class="ice-row">
+                                        <div class="ice-label">Esfuerzo:</div>
+                                        <div class="ice-bar"><div class="ice-bar-fill" style="width: 50%; background: #42a5f5;"></div></div>
+                                        <div class="ice-value">5/10</div>
+                                    </div>
+                                </div>
+                                <div class="ice-divider"></div>
+                                <div class="ice-total">
+                                    <span>ICE Total:</span>
+                                    <div class="ice-score">2.80 🟡</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="action-button">✓ Completar</button>
+                            <button class="action-button delete">🗑 Eliminar</button>
+                        </div>
+                    </div>
+
+                    <!-- TASK CARD 3 (COMPLETED) -->
+                    <div class="task-card completed" style="margin-top: 12px;">
+                        <div class="task-header">
+                            <div class="task-title completed">✓ Diseño Responsive</div>
+                            <div class="task-time">2h ago</div>
+                        </div>
+                        <div class="task-body">
+                            <div class="task-description">CSS Grid y Flexbox para desktop/mobile...</div>
+                            <div class="ice-score-box">
+                                <div class="ice-title">📊 Puntaje ICE</div>
+                                <div class="ice-rows">
+                                    <div class="ice-row">
+                                        <div class="ice-label">Impacto:</div>
+                                        <div class="ice-bar"><div class="ice-bar-fill" style="width: 50%; background: #42a5f5;"></div></div>
+                                        <div class="ice-value">5/10</div>
+                                    </div>
+                                    <div class="ice-row">
+                                        <div class="ice-label">Confianza:</div>
+                                        <div class="ice-bar"><div class="ice-bar-fill" style="width: 60%; background: #42a5f5;"></div></div>
+                                        <div class="ice-value">6/10</div>
+                                    </div>
+                                    <div class="ice-row">
+                                        <div class="ice-label">Esfuerzo:</div>
+                                        <div class="ice-bar"><div class="ice-bar-fill" style="width: 60%; background: #42a5f5;"></div></div>
+                                        <div class="ice-value">6/10</div>
+                                    </div>
+                                </div>
+                                <div class="ice-divider"></div>
+                                <div class="ice-total">
+                                    <span>ICE Total:</span>
+                                    <div class="ice-score">1.83 🟡</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="action-button" disabled>✓ Completada</button>
+                            <button class="action-button delete">🗑 Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SNACKBAR NOTIFICATION -->
+            <div class="snackbar success">✓ Tarea creada exitosamente</div>
+        </div>
+    </div>
+
+    <!-- ==================== DIAGRAMS SECTION ==================== -->
+    <div style="padding: 40px 20px; background: white; margin-top: 40px; text-align: center;">
+        <h1 style="margin-bottom: 40px; color: #212121;">📊 Flujos y Diagramas del Sistema</h1>
+        
+        <div style="background: #f5f5f5; padding: 30px; border-radius: 8px; margin-bottom: 40px;">
+            <h2 style="margin-bottom: 20px; color: #1976d2;">Diagrama de Flujo: Proceso de Crear Tareas</h2>
+            <pre style="text-align: left; background: white; padding: 20px; border-radius: 4px; overflow-x: auto; border: 1px solid #e0e0e0;">
+┌─────────────────────────────────────────────────┐
+│ 1. Usuario accede a la app                      │
+└──────────────────┬──────────────────────────────┘
+                   ↓
+┌─────────────────────────────────────────────────┐
+│ 2. Ve formulario vacío + lista vacía            │
+└──────────────────┬──────────────────────────────┘
+                   ↓
+┌─────────────────────────────────────────────────┐
+│ 3. Completa formulario (Título + Descripción)   │
+└──────────────────┬──────────────────────────────┘
+                   ↓
+┌─────────────────────────────────────────────────┐
+│ 4. ¿Datos válidos?                              │
+│    • Título: 1-100 caracteres                  │
+│    • Descripción: 10-500 caracteres            │
+└──────────────────┬──────────────────────────────┘
+                ✗  │  ✓
+          Error │  │ OK
+                ↓  ↓
+           [mostrar]  Botón habilitado
+            error    ↓
+                  Clic en crear
+                     ↓
+    ┌─────────────────────────────────────┐
+    │ 5. Botón deshabilitado + Spinner    │
+    │    Envía a API Gemini               │
+    └──────────────────┬──────────────────┘
+                       ↓
+    ┌─────────────────────────────────────┐
+    │ 6. ¿API responde?                   │
+    └──────────────────┬──────────────────┘
+             ✗       │       ✓
+          Error      │      OK
+             ↓       ↓
+        [mostrar]  JSON válido
+         error    {I,C,E}
+                     ↓
+    ┌─────────────────────────────────────┐
+    │ 7. Calcula ICE = (I+C)/E            │
+    │    Valida valores en [1,10]         │
+    └──────────────────┬──────────────────┘
+                       ↓
+    ┌─────────────────────────────────────┐
+    │ 8. TaskCard aparece en lista        │
+    │    Ordenada por ICE DESC            │
+    │    Snackbar: "✓ Tarea creada"       │
+    │    Formulario limpio                │
+    └──────────────────┬──────────────────┘
+                       ↓
+    ┌─────────────────────────────────────┐
+    │ 9. Usuario ve opciones:             │
+    │    • Crear otra tarea               │
+    │    • Completar tarea                │
+    │    • Eliminar tarea                 │
+    └─────────────────────────────────────┘
+            </pre>
+        </div>
+
+        <div style="background: #f5f5f5; padding: 30px; border-radius: 8px;">
+            <h2 style="margin-bottom: 20px; color: #1976d2;">Diagrama de Navegación del Usuario</h2>
+            <pre style="text-align: left; background: white; padding: 20px; border-radius: 4px; overflow-x: auto; border: 1px solid #e0e0e0;">
+                        ┌──────────────────┐
+                        │ 🏠 Inicio        │
+                        │ App Vacía        │
+                        └────────┬─────────┘
+                                 │
+                 ┌───────────────┼───────────────┐
+                 │               │               │
+                 ↓               ↓               ↓
+         ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+         │ TaskForm     │ │ Escribir     │ │ Validación   │
+         │ Inputs       │ │ descripción  │ │ OK           │
+         └──────┬───────┘ └──────┬───────┘ └──────┬───────┘
+                │                │                │
+                └────────────────┼────────────────┘
+                                 ↓
+                        ┌──────────────────┐
+                        │ ⏳ Loading       │
+                        │ Esperando IA     │
+                        └────────┬─────────┘
+                                 │
+                ┌────────────────┼────────────────┐
+                │                │                │
+             ✓ │             ✗  │  Timeout
+                ↓                ↓
+         ┌──────────────┐ ┌──────────────┐
+         │ 📋 TaskList  │ │ ❌ Error     │
+         │ Aparece Card │ │ Snackbar     │
+         └──────┬───────┘ │ Alert        │
+                │         └──────┬───────┘
+                │                │
+        ┌───────┼─────────┬──────┘
+        │       │         │
+        │       │    ┌────▼────────┐
+        │       │    │ Reintento   │
+        │       │    │ (opt.)      │
+        │       │    └──────┬──────┘
+        │       │           │
+        │       └───────────┴──────┐
+        │                         │
+        ↓                         ↓
+    ┌────────────┐         ┌──────────────┐
+    │ Acciones   │         │ Crear otra   │
+    │ • Completar│◄────────│ tarea        │
+    │ • Eliminar │         └──────────────┘
+    │ • Ver list │
+    └────────────┘
+            </pre>
+        </div>
+    </div>
+
+    <!-- ==================== COMPONENT HIERARCHY ==================== -->
+    <div style="padding: 40px 20px; background: #fafafa; text-align: center; margin-top: 0;">
+        <h2 style="margin-bottom: 30px; color: #212121;">🏗️ Jerarquía de Componentes MUI</h2>
+        <div style="background: white; padding: 30px; border-radius: 8px; max-width: 900px; margin: 0 auto; text-align: left;">
+            <pre style="background: #f5f5f5; padding: 20px; border-radius: 4px; overflow-x: auto; border-left: 4px solid #1976d2; font-size: 13px;">
+App.tsx
+├── AppBar (MUI)
+│   ├── Toolbar
+│   ├── Typography (título)
+│   └── IconButton (menú)
+│
+├── Container
+│
+├── TaskForm (Componente)
+│   ├── Card (MUI)
+│   │   ├── CardHeader
+│   │   ├── CardContent
+│   │   │   ├── TextField (título)
+│   │   │   ├── TextField (descripción, multiline)
+│   │   │   ├── LinearProgress (carga)
+│   │   │   └── Box (botones)
+│   │   │       ├── Button (crear)
+│   │   │       └── Button (limpiar)
+│   │   └── CardActions
+│   │
+│   └── Alert (si error)
+│
+├── TaskList (Componente)
+│   ├── Tabs (opcional: Todas, Completadas, Pendientes)
+│   │   ├── TabPanel
+│   │   └── TabPanel
+│   │
+│   └── Stack (contenedor vertical)
+│       ├── TaskCard
+│       │   ├── Card (MUI)
+│       │   │   ├── CardHeader
+│       │   │   │   ├── Typography (título)
+│       │   │   │   ├── Chip (prioridad)
+│       │   │   │   └── Typography (fecha)
+│       │   │   │
+│       │   │   ├── CardContent
+│       │   │   │   ├── Typography (descripción)
+│       │   │   │   └── ICEScore (Componente)
+│       │   │   │       ├── Paper
+│       │   │   │       ├── Typography (titulo)
+│       │   │   │       ├── Grid
+│       │   │   │       │   ├── Box (Impacto + LinearProgress)
+│       │   │   │       │   ├── Box (Confianza + LinearProgress)
+│       │   │   │       │   └── Box (Esfuerzo + LinearProgress)
+│       │   │   │       ├── Divider
+│       │   │   │       └── Box (Total ICE + Chip)
+│       │   │   │
+│       │   │   └── CardActions
+│       │   │       ├── Button (completar)
+│       │   │       └── Button (eliminar)
+│       │   │
+│       │   ├── TaskCard
+│       │   └── TaskCard
+│       │
+│       └── Alert (si no hay tareas)
+│
+└── Snackbar (MUI)
+    └── Alert (mensaje temporal)
+            </pre>
+        </div>
+    </div>
+
+    <!-- ==================== MATERIAL UI COMPONENTS SUMMARY ==================== -->
+    <div style="padding: 40px 20px; background: white; text-align: center;">
+        <h2 style="margin-bottom: 30px; color: #212121;">📦 Componentes Material UI Utilizados</h2>
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <table style="width: 100%; border-collapse: collapse; background: white;">
+                <thead>
+                    <tr style="background: #1976d2; color: white;">
+                        <th style="padding: 12px; text-align: left; border: 1px solid #e0e0e0;">Componente MUI</th>
+                        <th style="padding: 12px; text-align: left; border: 1px solid #e0e0e0;">Ubicación</th>
+                        <th style="padding: 12px; text-align: left; border: 1px solid #e0e0e0;">Función</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: #f5f5f5;">
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>AppBar</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Navbar superior</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Encabezado con título e iconos</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>Toolbar</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Navbar superior</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Contenedor flexible de AppBar</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>TextField</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">TaskForm</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Inputs de texto</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>Button</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Toda la app</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Botones de acción</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>Card</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">TaskCard, ICEScore</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Contenedores de contenido</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>Typography</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Toda la app</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Textos tipográficos</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>LinearProgress</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">TaskForm, ICEScore</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Barras de progreso</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>CircularProgress</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">TaskForm (loading)</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Spinner de carga</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>Chip</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">TaskCard, ICEScore</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Etiquetas compactas</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>Snackbar</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Notificaciones</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Mensajes temporales</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>Alert</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Errores, información</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Mensajes de alerta</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>Box</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Toda la app</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Contenedor flexible genérico</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>Stack</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">TaskList, formularios</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Apilamiento vertical/horizontal</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>Grid</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">ICEScore, layouts</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Grid layout responsiva</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>Divider</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Separadores</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Líneas separadoras</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>IconButton</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Navbar, acciones</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Botones con ícono</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;"><code>Tabs</code></td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">TaskList (opcional)</td>
+                        <td style="padding: 12px; border: 1px solid #e0e0e0;">Pestañas de filtrado</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <div style="padding: 40px 20px; background: #1976d2; color: white; text-align: center; margin-top: 40px;">
+        <p><strong>Documento de Diseño UX/UI</strong></p>
+        <p>Gestor de Tareas Inteligente con Modelo ICE - Mayo 2026</p>
+        <p style="margin-top: 16px; font-size: 12px; opacity: 0.8;">✓ Flujo de usuario definido | ✓ Componentes MUI especificados | ✓ Listo para implementación</p>
+    </div>
+</body>
+</html>

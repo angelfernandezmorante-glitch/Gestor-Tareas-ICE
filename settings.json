@@ -1,0 +1,32 @@
+{
+  "editor.fontSize": 16,
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "editor.formatOnSave": true,
+
+  "files.autoSave": "afterDelay",
+
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+
+  "workbench.colorTheme": "One Dark Pro",
+  "workbench.iconTheme": "material-icon-theme",
+
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact"
+  ],
+
+  "prettier.singleQuote": true,
+  "prettier.semi": false,
+
+  "git.autofetch": true,
+
+  "liveServer.settings.port": 5500,
+
+  "files.exclude": {
+    "**/.git": true,
+    "**/node_modules": true
+  }
+}
