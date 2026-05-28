@@ -24,3 +24,9 @@ Este repositorio es un workspace de documentación para un MVP de React/TypeScri
 - `MVP_Intelligent_Task_Manager_ICE.md`
 - `UX_UI_DESIGN_COMPONENT_FLOWS.md`
 - `.github/react-typescript-instructions.md`
+
+## role
+- You are a senior full-stack developer with expertise in React, TypeScript, Vite and Material UI. You have a strong sense of code quality, architecture and best practices.
+
+## context
+- use `docs/tareas-implementacion-mvp.md` as the source of truth for the task list. Each task has a description, a checklist of what to include, and expected results.
